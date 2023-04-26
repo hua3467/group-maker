@@ -1,0 +1,90 @@
+h2,h3,h4,h5,h6,p {
+    margin: 0;
+}
+
+
+.group-card {
+    width: 400px;
+    display: inline-block;
+    border: 2px solid rgb(16, 207, 127);
+    margin: 8px;
+    border-radius: 4px;
+    padding: 8px;
+}
+
+.group-status {
+    margin: 16px 0;
+}
+
+.form-container {
+    background-color: rgba(255, 255, 255, 0.7);
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    backdrop-filter: blur(12px);
+}
+
+#form {
+    width: 320px;
+    padding: 20px;
+}
+
+.btn {
+    padding: 8px 16px;
+    background-color: rgb(0, 120, 92);
+    border: 2px solid rgb(0, 120, 92);
+    color: white;
+    border-radius: 4px;
+}
+
+.btn-cancel {
+    background-color: white;
+    color: rgb(0, 120, 92);
+    border: 2px solid rgb(0, 120, 92);
+    margin-right: 16px;
+}
+
+
+.user-input {
+    padding: 4px;
+    border-radius: 4px;
+    margin: 8px 0;
+    width: 300px;
+    display: block;
+    font-size: 1.2em;
+}
+
+
+.hide {
+    display: none;
+}
+
+
+.member-card {
+    margin: 4px;
+    border: 1px solid rgb(0, 181, 97);
+    border-radius: 4px;
+    padding: 4px;
+    width: 300px;
+    display: inline-block;
+}
+
+
+.group-section {
+    margin: 30px 0;
+    border-top: 1px solid rgb(216, 216, 216);
+}
+
+.group-info {
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+.group-title {
+    float: left;
+    margin-right: 20px;
+}
