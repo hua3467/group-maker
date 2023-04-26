@@ -12,7 +12,19 @@ const memberCard = (memberData) => {
         },
         children: [
             {
-                type: "h4",
+                type: "button",
+                content: "delete",
+                attr: {
+                    className: "btn-delete"
+                },
+                events: {
+                    click: () => {
+                        console.log(`Remove ${memberData.name} from the group.`)
+                    }
+                }
+            },
+            {
+                type: "h3",
                 content: memberData.name
             },{
                 type: "p",
@@ -90,7 +102,7 @@ const groupCard = (groupInfo) => {
             },
             children: [
                 {
-                    type: "h3",
+                    type: "h2",
                     content: groupInfo.name,
                     attr: {
                         className: "group-title"

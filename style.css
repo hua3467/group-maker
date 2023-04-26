@@ -1,6 +1,13 @@
+body,
+input,
+textarea {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
 h2,h3,h4,h5,h6,p {
     margin: 0;
 }
+
 
 
 .group-card {
@@ -28,9 +35,15 @@ h2,h3,h4,h5,h6,p {
     backdrop-filter: blur(12px);
 }
 
-#form {
-    width: 320px;
+#form,
+#groupEditContaner {
+    width: 360px;
     padding: 20px;
+}
+
+#groupEditContaner textarea {
+    height: 200px;
+    border: 2px solid black;
 }
 
 .btn {
@@ -48,6 +61,9 @@ h2,h3,h4,h5,h6,p {
     margin-right: 16px;
 }
 
+.btn-edit-group {
+    margin: 16px 0;
+}
 
 .user-input {
     padding: 4px;
@@ -55,7 +71,7 @@ h2,h3,h4,h5,h6,p {
     margin: 8px 0;
     width: 300px;
     display: block;
-    font-size: 1.2em;
+    font-size: 1em;
 }
 
 
@@ -71,6 +87,7 @@ h2,h3,h4,h5,h6,p {
     padding: 4px;
     width: 300px;
     display: inline-block;
+    position: relative;
 }
 
 
@@ -85,6 +102,22 @@ h2,h3,h4,h5,h6,p {
 }
 
 .group-title {
-    float: left;
     margin-right: 20px;
+}
+
+.btn-delete {
+    position: absolute;
+    right: 0;
+    top: 0;
+    background-color: white;
+    color: rgb(218, 34, 2);;
+    border: none;
+    padding: 4px;
+    border-radius: 4px;
+}
+
+.btn-delete:hover {
+    color: white;
+    background-color: rgb(218, 34, 2);
+    cursor: pointer;
 }
