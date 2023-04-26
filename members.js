@@ -4,7 +4,7 @@ let state = {
     groupDescription: ""
 }
 
-const memberCard = (memberData) => {
+const memberCard = (memberData, key) => {
     return new JDom({
         type: "div",
         attr: {
@@ -19,7 +19,14 @@ const memberCard = (memberData) => {
                 },
                 events: {
                     click: () => {
-                        console.log(`Remove ${memberData.name} from the group.`)
+                        let isConfirmed = confirm(`Are you sure you want to remove ${memberData.name}?`);
+
+                        if (isConfirmed) {
+                            db.remove(`group-data/${memberData.groupID}/members/${key}`, () => {
+                                console.log("removed");
+                            });
+                        }
+                        
                     }
                 }
             },
@@ -85,9 +92,10 @@ const groupCard = (groupInfo) => {
     const members = [];
 
     if (groupInfo.members) {
-        Object.values(groupInfo.members).forEach(member => {
-            members.push(memberCard(member));
-        });
+
+        for(key in groupInfo.members){
+            members.push(memberCard(groupInfo.members[key], key));
+        }
     }
 
     return new JDom({
