@@ -24,8 +24,9 @@ db.onDataUpdated('', data => {
 
 // db.set("group-data", groupDataInit);
 
-function submit(){
+function submit(groupName){
     db.append(`group-data/${state.groupID}/members`, state, () => {
+        const isConfirmed = confirm(`Are you sure you want to join ${groupName}?`)
         clearElements("#form");
         document.querySelector(".form-container").classList.add("hide");
         state = {
@@ -69,7 +70,7 @@ function card(data, capacity, isFull) {
         },
         children: [
             {
-                type: "h2",
+                type: "h3",
                 content: data.name,
                 attr: {
                     className: "card-title"
@@ -153,7 +154,7 @@ function signUpForm(data, callback){
                 events: {
                     click: (e) => {
                         e.preventDefault();
-                        callback();
+                        callback(data.name);
                     }
                 }
             }
@@ -163,4 +164,8 @@ function signUpForm(data, callback){
 
 function setState(key, value){
     state[key] = value;
+}
+
+function isSigned(email){
+    
 }
