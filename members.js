@@ -160,6 +160,10 @@ db.onDataUpdated("", data => {
     });
 });
 
+document.querySelector("#btnPrint").addEventListener("click", e => {
+    window.print();
+})
+
 function setState(key, value){
     state[key] = value;
 }
