@@ -1,5 +1,3 @@
-
-
 const parseURL = function(url) {
     let pattern = /^((http|https|ftp):\/\/)/;
     if(!pattern.test(url)) {
@@ -79,3 +77,18 @@ function input(label, inputType, key, callback, defaultValue=""){
     }
 }
 
+
+/**
+ * 
+ * @param {[string]} arr an array of parameter names.
+ * @returns 
+ */
+function getUrlParams(arr) {
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const container = {};
+    arr.forEach(item => {
+      container[item] = urlParams.get(item);
+    })
+    return container;
+  }

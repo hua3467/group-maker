@@ -13,9 +13,9 @@ const memberCard = (memberData, key) => {
         children: [
             {
                 type: "button",
-                content: "delete",
+                content: "Remove",
                 attr: {
-                    className: "btn-delete"
+                    className: "btn-delete no-print"
                 },
                 events: {
                     click: () => {
@@ -119,7 +119,7 @@ const groupCard = (groupInfo) => {
                     type: "button",
                     content: "Edit Group",
                     attr: {
-                        className: " btn-edit-group"
+                        className: "no-print btn-edit-group"
                     },
                     events: {
                         click: e => {
