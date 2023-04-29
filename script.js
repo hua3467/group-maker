@@ -6,6 +6,8 @@ let state = {
     uid: Date.now()
 };
 
+const imagePlaceHolder = "https://sodaa360.com/wp-content/uploads/image_hosting/14/2023/04/pexels-photo-1103970.jpeg";
+
 db.onDataUpdated('', data => {
 
     clearElements("#app");
@@ -63,13 +65,27 @@ function card(data, capacity, isFull) {
         seatRemain = capacity - Object.keys(data.members).length;
     }
 
+    let image = null;
+    if (data.image) {
+        image = {
+            type: "img",
+            attr: {
+                src: data.image,
+                style: {
+                    width: "100%"
+                }
+            }
+        }
+    }
 
     return new JDom({
         type: "div",
         attr: {
             className: "group-card",
         },
-        children: [{
+        children: [
+            image,
+            {
             type: "h3",
             content: data.name,
             attr: {
@@ -77,7 +93,10 @@ function card(data, capacity, isFull) {
             }
         }, {
             type: "p",
-            content: data.description
+            content: data.description,
+            attr: {
+                className: "card-description"
+            }
         }, {
             type: "h3",
             content: isFull ? "This group is full." : `Opend slots: ${seatRemain} / ${capacity}`,

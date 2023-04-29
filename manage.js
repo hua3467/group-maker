@@ -1,7 +1,8 @@
 
 let state = {
     groupName: "",
-    groupDescription: ""
+    groupDescription: "",
+    groupImage: ""
 }
 
 const memberCard = (memberData, key) => {
@@ -52,8 +53,24 @@ const groupEdit = (info) => {
             className: "group-edit"
         }, 
         children: [
+            {
+                type: "h4",
+                content: `Edit Group "${info.name}"`,
+                attr: {
+                    style: {
+                        margin: "16px 0"
+                    }
+                }
+            },
             input("Group Name: ", "input", "groupName", setState, info.name),
             input("Description: ", "textarea", "groupDescription", setState, info.description), 
+            input("Image Address: ", "input", "groupImage", setState, info.image), 
+            {
+                type: "p",
+                attr: {
+                    innerHTML: `<br>You can use <a href=${"https://sodaa360.com/uncategorized/image-host/"} target="_blank">this link</a> to upload an image. Then paste the image link to the above field.<br><br>`
+                }
+            },
             {
                 type: "button",
                 content: "Cancel",
@@ -78,6 +95,7 @@ const groupEdit = (info) => {
                         e.preventDefault();
                         db.set(`group-data/${info.id}/name`, state.groupName);
                         db.set(`group-data/${info.id}/description`, state.groupDescription);
+                        db.set(`group-data/${info.id}/image`, state.groupImage);
                         clearElements("#groupEditContaner");
                         console.log(state);
                     }
@@ -125,6 +143,7 @@ const groupCard = (groupInfo) => {
                         click: e => {
                             setState("groupName", groupInfo.name);
                             setState("groupDescription", groupInfo.description);
+                            setState("groupImage", groupInfo.groupImage);
                             groupEdit(groupInfo).render("#groupEditContaner");
                             window.scrollTo(0, 0);
                         }

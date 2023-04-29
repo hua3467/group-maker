@@ -46,6 +46,10 @@ main {
     margin-bottom: 12px;
 }
 
+.card-description {
+    font-size: 0.8em;
+}
+
 .group-status {
     margin: 16px 0;
 }
@@ -65,13 +69,22 @@ main {
 
 #form,
 #groupEditContaner {
-    width: 360px;
+    min-width: 360px;
+    width: 50%;
+    max-width: 640px;
     padding: 20px;
 }
 
 #groupEditContaner textarea {
     height: 200px;
     border: 2px solid black;
+}
+
+.group-edit {
+    width: 100%;
+}
+.group-edit .user-input{
+    width: 100%;
 }
 
 .btn {
@@ -141,6 +154,8 @@ main {
 .group-title {
     margin-right: 20px;
 }
+
+
 
 .btn-delete {
     position: absolute;
