@@ -1,4 +1,3 @@
-
 let state = {
     groupName: "",
     groupDescription: "",
@@ -45,8 +44,58 @@ const memberCard = (memberData, key) => {
     });
 }
 
+const imageUpload = (imagePreviewUrl) => {
+    let previewContainer =  {
+        type: "div",
+        attr: {
+            id: "preview"
+        }
+    };
+    if(imagePreviewUrl) {
+        previewContainer =  {
+            type: "div",
+            attr: {
+                id: "preview"
+            },
+            children: [{
+                type: "img",
+                attr: {
+                    src: imagePreviewUrl,
+                    style: {
+                        width: "300px"
+                    }
+                }
+                
+            }]
+        };
+    }
+
+    return {
+        type: "div",
+        attr: {
+            className: "image-uploader"
+        },
+        children:[
+            previewContainer,
+            {
+            type: "button",
+            content: imagePreviewUrl ? "Change Image" : "Add Image",
+            attr: {
+                id: "upload_widget",
+                className: "cloudinary-button"
+            },
+            events: {
+                click: () => {
+                    myWidget.open();
+                }
+            }
+        }]
+    };
+}
+
 const groupEdit = (info) => {
     clearElements("#groupEditContaner");
+
     return new JDom({
         type: "div",
         attr: {
@@ -64,13 +113,8 @@ const groupEdit = (info) => {
             },
             input("Group Name: ", "input", "groupName", setState, info.name),
             input("Description: ", "textarea", "groupDescription", setState, info.description), 
-            input("Image Address: ", "input", "groupImage", setState, info.image), 
-            {
-                type: "p",
-                attr: {
-                    innerHTML: `<br>You can use <a href=${"https://sodaa360.com/uncategorized/image-host/"} target="_blank">this link</a> to upload an image. Then paste the image link to the above field.<br><br>`
-                }
-            },
+            input("Image Address: ", "input", "groupImage", setState, info.image),
+            imageUpload(info.image),
             {
                 type: "button",
                 content: "Cancel",
@@ -93,6 +137,7 @@ const groupEdit = (info) => {
                 events: {
                     click: e => {
                         e.preventDefault();
+                        state.groupImage = document.querySelector("#groupImage").value;
                         db.set(`group-data/${info.id}/name`, state.groupName);
                         db.set(`group-data/${info.id}/description`, state.groupDescription);
                         db.set(`group-data/${info.id}/image`, state.groupImage);
@@ -178,6 +223,32 @@ db.onDataUpdated("", data => {
         groupCard(info).render("#app");
     });
 });
+
+var myWidget = cloudinary.createUploadWidget({
+    cloudName: 'dop0mlakv',
+    uploadPreset: 'dw5p6gbl'
+}, (error, result) => {
+    if (!error && result && result.event === "success") {
+        console.log('Done! Here is the image info: ', result.info);
+
+        clearElements("#preview");
+
+        new JDom({
+            type: "img",
+            attr: {
+                src: `https://res.cloudinary.com/dop0mlakv/image/upload/c_limit,h_360,w_420/${result.info.path}`,
+            }
+        }).render("#preview");
+
+        setState("groupImage", result.info.secure_url);
+        document.querySelector("#groupImage").value = result.info.secure_url;
+        document.querySelector("#upload_widget").content = "Change Image";
+    }
+});
+
+// document.getElementById("upload_widget").addEventListener("click", function () {
+//     myWidget.open();
+// }, false);
 
 document.querySelector("#btnPrint").addEventListener("click", e => {
     window.print();

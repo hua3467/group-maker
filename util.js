@@ -65,7 +65,9 @@ function input(label, inputType, key, callback, defaultValue=""){
                 type: inputType,
                 attr: {
                     value: defaultValue,
-                    className: "user-input"
+                    className: "user-input",
+                    id: key,
+                    name: key
                 },
                 events: {
                     input: (e) => {

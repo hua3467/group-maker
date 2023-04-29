@@ -49,6 +49,7 @@ class JDom {
 
         if (node.attr) {
             for (let key in node.attr) {
+                
                 if (key.substring(0, 5) === "data_") {
                     ele.dataset[key.substring(5)] = node.attr[key]
                 } else if (key === "style" && typeof (node.attr[key]) !== "string") {
@@ -57,9 +58,11 @@ class JDom {
                     }
                 } else {
                     ele[key] = node.attr[key];
-                    if (key === "id") {
-                        this.idList.push(ele[key]);
-                    }
+                    // if (key === "id") {
+                    //     console.log(ele);
+                    //     console.log(key, ele[key]);
+                    //     this.idList.push(ele[key]);
+                    // }
                 }
             }
         }

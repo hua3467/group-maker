@@ -72,7 +72,6 @@ main {
     min-width: 360px;
     width: 50%;
     max-width: 640px;
-    padding: 20px;
 }
 
 #groupEditContaner textarea {
@@ -172,6 +171,23 @@ main {
     color: white;
     background-color: rgb(218, 34, 2);
     cursor: pointer;
+}
+
+
+.image-uploader {
+    margin-bottom: 40px;
+    vertical-align: top;
+}
+
+.image-uploader #preview,
+.image-uploader #upload_widget {
+    display: block;
+}
+
+#upload_widget {
+    height: 40px;
+    width: 160px;
+    line-height: 1em;
 }
 
 @media (max-width: 920px) {
