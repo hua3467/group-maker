@@ -1,7 +1,67 @@
 let state = {
     groupName: "",
     groupDescription: "",
-    groupImage: ""
+    groupImage: "",
+    eventName: "",
+    eventDescription: "",
+    eventImage: ""
+}
+
+const eventEdit = (eventInfo) => {
+    clearElements("#eventEditContaner");
+
+    return new JDom({
+        type: "div",
+        attr: {
+            className: "event-edit"
+        }, 
+        children: [
+            {
+                type: "h4",
+                content: `Event Edit`,
+                attr: {
+                    style: {
+                        margin: "16px 0"
+                    }
+                }
+            },
+            input("Event Name: ", "input", "eventName", setState, eventInfo.name),
+            input("Event Description: ", "textarea", "eventDescription", setState, eventInfo.description), 
+            input("Event Address: ", "input", "eventImage", setState, eventInfo.image),
+            imageUpload(eventInfo.image),
+            {
+                type: "button",
+                content: "Cancel",
+                attr: {
+                    className: "btn btn-cancel"
+                },
+                events: {
+                    click: (e) => {
+                        e.preventDefault();
+                        clearElements("#eventEditContaner");
+                    }
+                }
+            },
+            {
+                type: "button",
+                content: "Save",
+                attr: {
+                    className: "btn"
+                },
+                events: {
+                    click: e => {
+                        e.preventDefault();
+                        state.eventImage = document.querySelector("#eventImage").value;
+                        db.set(`group-data/eventName`, state.eventName);
+                        db.set(`group-data/eventDescription`, state.eventDescription);
+                        db.set(`group-data/eventImage`, state.eventImage);
+                        clearElements("#groupEditContaner");
+                        console.log(state);
+                    }
+                }
+            }
+        ]
+    })
 }
 
 const memberCard = (memberData, key) => {

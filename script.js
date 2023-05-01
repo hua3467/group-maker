@@ -99,7 +99,7 @@ function card(data, capacity, isFull) {
             }
         }, {
             type: "h3",
-            content: isFull ? "This group is full." : `Opend slots: ${seatRemain} / ${capacity}`,
+            content: isFull ? "This group is full." : `Open Slots: ${seatRemain} / ${capacity}`,
             attr: {
                 className: "group-status"
             }

@@ -91,23 +91,7 @@ const memberCard = (memberData) => {
         attr: {
             className: "member-card"
         },
-        children: [{
-                type: "button",
-                content: "Edit my Information",
-                attr: {
-                    className: "btn-edit no-print"
-                },
-                events: {
-                    click: (e) => {
-    
-                        clearElements("#form");
-                        setState("groupID", data.id);
-                        signUpForm(data, submit).render("#form");
-                        document.querySelector(".form-container").classList.remove("hide");
-                        
-                    }
-                }
-            },
+        children: [
             {
                 type: "button",
                 content: "Leave this Group",
@@ -116,7 +100,7 @@ const memberCard = (memberData) => {
                 },
                 events: {
                     click: () => {
-                        let isConfirmed = confirm(`Are you sure you want to leave this group?`);
+                        let isConfirmed = confirm(`Are you sure you want to leave this group? This will delete your information.`);
 
                         if (isConfirmed) {
                             db.remove(`group-data/${memberData.groupID}/members/${memberData.uid}`, () => {
@@ -155,7 +139,7 @@ const groupCard = (groupInfo) => {
             },
             children: [{
                     type: "p",
-                    content: "You joined the group of"
+                    content: "You joined the group"
                 },
                 {
                     type: "h2",
@@ -165,7 +149,9 @@ const groupCard = (groupInfo) => {
                     }
                 }, {
                     type: "p",
-                    content: "To update your information, plase leave this group and join again."
+                    attr: {
+                        innerHTML: "You can save this page for your records. <br> To update your information, plase leave this group and join again."
+                    }
                 },
             ]
         }]
