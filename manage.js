@@ -89,6 +89,9 @@ const imageUpload = (imagePreviewUrl) => {
                     myWidget.open();
                 }
             }
+        }, {
+            type: "p",
+            content: "Maximum allowed image size: 5 MB."
         }]
     };
 }
@@ -226,7 +229,10 @@ db.onDataUpdated("", data => {
 
 var myWidget = cloudinary.createUploadWidget({
     cloudName: 'dop0mlakv',
-    uploadPreset: 'dw5p6gbl'
+    uploadPreset: 'dw5p6gbl',
+    maxFileSize: 5242880,
+    sources: [ 'local', 'url', 'camera', 'image_search'],
+    googleApiKey: "AIzaSyBZZBAf49ZlGA23L-Bvy8WjCzNM6KMZjkM"
 }, (error, result) => {
     if (!error && result && result.event === "success") {
         console.log('Done! Here is the image info: ', result.info);
