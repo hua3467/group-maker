@@ -75,7 +75,9 @@ const memberCard = (memberData, key) => {
                 type: "button",
                 content: "Remove",
                 attr: {
-                    className: "btn-delete no-print"
+                    className: "btn-delete no-print",
+                    data_id: key,
+                    data_group: memberData.groupID
                 },
                 events: {
                     click: () => {
