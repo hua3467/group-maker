@@ -32,6 +32,13 @@ main {
     margin-right: auto;
 }
 
+#introVideo {
+    width: 920px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .group-card {
     width: calc(33% - 36px);
     display: inline-block;
@@ -191,12 +198,17 @@ main {
 }
 
 @media (max-width: 920px) {
+    #introVideo {
+        width: 100%;
+    }
     .group-card {
         width: calc(50% - 36px)
     }
 }
 
 @media (max-width: 720px) {
+
+    
 
     .group-card {
         width: calc(100% - 32px)

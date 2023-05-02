@@ -150,7 +150,7 @@ const groupCard = (groupInfo) => {
                 }, {
                     type: "p",
                     attr: {
-                        innerHTML: "You can save this page for your records. <br> To update your information, plase leave this group and join again."
+                        innerHTML: "You can save this page for your records."
                     }
                 },
             ]
