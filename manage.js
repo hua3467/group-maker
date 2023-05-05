@@ -261,6 +261,12 @@ const groupCard = (groupInfo) => {
                 }, {
                     type: "p",
                     content: groupInfo.description
+                }, {
+                    type: "h3",
+                    content: `(${members.length} Participants)`,
+                    attr: {
+                        className: "group-size"
+                    }
                 },
             ]
         },

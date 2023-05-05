@@ -53,6 +53,10 @@ main {
     margin-bottom: 12px;
 }
 
+.group-size {
+    color: #006633;
+}
+
 .card-description {
     font-size: 0.8em;
 }
@@ -229,5 +233,10 @@ main {
 @media print {
     .no-print {
         display: none !important;
+    }
+
+    .member-card {
+        height: auto;
+        width: calc(50% - 20px)
     }
 }
