@@ -1,4 +1,4 @@
-const urlParams = getUrlParams(["uid", "gid"]);
+const urlParams = getUrlParams(["uid", "gid", "eid"]);
 
 let state = {
     name: "",
@@ -7,10 +7,6 @@ let state = {
     groupID: "",
     uid: ''
 };
-
-const setState = (key, value) => {
-    state[key] = value;
-}
 
 const submit = (groupName) => {
 
@@ -158,15 +154,11 @@ const groupCard = (groupInfo) => {
     });
 }
 
-
-
-
-
-db.read(`group-data/${urlParams.gid}`, data => {
+db.read(`${urlParams.eid}/group-data/${urlParams.gid}`, data => {
     groupCard(data).render("#group");
 });
 
-db.onDataUpdated(`group-data/${urlParams.gid}/members/${urlParams.uid}`, data => {
+db.onDataUpdated(`${urlParams.eid}/group-data/${urlParams.gid}/members/${urlParams.uid}`, data => {
     console.log(data);
     if (data) {
         memberCard(data).render("#app");

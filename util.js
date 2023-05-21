@@ -50,33 +50,74 @@ function clearElements(selector) {
     document.querySelector(selector).innerHTML = '';
 }
 
+function addContent(selector, content) {
+    document.querySelector(selector).innerHTML = content;
+}
+
 function input(label, inputType, key, callback, defaultValue=""){
-    return {
-        type: "div",
-        attr: {
-            marginTop: "8px",
-            marginBottom: "8px"
-        },
-        children: [
-            {
-                type: "label",
-                content: label
-            }, {
-                type: inputType,
-                attr: {
-                    value: defaultValue,
-                    className: "user-input",
-                    id: key,
-                    name: key
-                },
-                events: {
-                    input: (e) => {
-                        callback(key, e.target.value);
+    if (inputType === "textarea") {
+        return {
+            type: "div",
+            attr: {
+                marginTop: "8px",
+                marginBottom: "8px",
+                className: "input-section"
+            },
+            children: [
+                {
+                    type: "label",
+                    content: label
+                }, {
+                    type: "textarea",
+                    attr: {
+                        value: defaultValue,
+                        className: "user-input",
+                        id: key,
+                        name: key
+                    },
+                    events: {
+                        input: (e) => {
+                            callback(key, e.target.value);
+                        }
                     }
                 }
-            }
-        ]
+            ]
+        }
+    } else {
+        return {
+            type: "div",
+            attr: {
+                marginTop: "8px",
+                marginBottom: "8px",
+                className: "input-section"
+            },
+            children: [
+                {
+                    type: "label",
+                    content: label
+                }, {
+                    type: "input",
+                    attr: {
+                        value: defaultValue,
+                        className: "user-input",
+                        id: key,
+                        name: key,
+                        type: inputType
+                    },
+                    events: {
+                        input: (e) => {
+                            callback(key, e.target.value);
+                        }
+                    }
+                }
+            ]
+        }
     }
+    
+}
+
+function setState(key, value){
+    state[key] = value;
 }
 
 
@@ -94,3 +135,5 @@ function getUrlParams(arr) {
     })
     return container;
   }
+
+

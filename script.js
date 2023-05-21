@@ -8,13 +8,37 @@ let state = {
 
 const imagePlaceHolder = "https://sodaa360.com/wp-content/uploads/image_hosting/14/2023/04/pexels-photo-1103970.jpeg";
 
-db.onDataUpdated('', data => {
+const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
+const projectID = urlParams.get("id");
 
+
+db.onDataUpdated(projectID, data => {
+
+    clearElements("#videContainer")
     clearElements("#app");
+
+    document.querySelector("#description").innerHTML = data.description;
+    document.querySelector("#eventTitle").innerHTML = data.page_title;
+    document.querySelector("#docURL").href = data.doc;
+
+    new JDom({
+        type: "video",
+        attr: {
+            src: data.video_url,
+            controls: true,
+            id: "introVideo"
+        }
+    }).render("#videContainer");
+
+    
 
     const groupData = data["group-data"];
     const capacity = data.capacity;
-    groupData.forEach(info => {
+
+    console.log(data);
+
+    Object.values(groupData).forEach(info => {
         let isFull = false;
 
         if (info.members) {
@@ -29,7 +53,7 @@ db.onDataUpdated('', data => {
 
 function submit(groupName) {
     if (state.name.length > 1 && state.email.length > 1 && state.school.length > 1) {
-        db.set(`group-data/${state.groupID}/members/${state.uid}`, state, () => {
+        db.set(`${projectID}/group-data/${state.groupID}/members/${state.uid}`, state, () => {
             // const isConfirmed = confirm(`Are you sure you want to join ${groupName}? You cannot change your group after submission.`);
             clearElements("#form");
             document.querySelector(".form-container").classList.add("hide");
