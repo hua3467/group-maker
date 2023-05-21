@@ -24,6 +24,11 @@ main {
     margin: 0;
 }
 
+#links {
+    position: relative;
+    margin: 20px;
+}
+
 .container {
     width: 90%;
     min-width: 360px;

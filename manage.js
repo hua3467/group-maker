@@ -64,7 +64,7 @@ const memberCard = (memberData, key) => {
   })
 }
 
-const groupEdit = (info) => {
+const groupEdit = (info, groupId) => {
 
   clearElements("#groupEditContaner");
 
@@ -119,13 +119,14 @@ const groupEdit = (info) => {
               db.set(`${eventId}/group-data/${state.newGroupId}/image`, state.groupImage);
               db.set(`${eventId}/group-data/${state.newGroupId}/id`, state.newGroupId);
               isNewGroup = false;
-
+              console.log("new group.");
             } else {
-
-              db.set(`${eventId}/group-data/${info.id}/name`, state.groupName);
-              db.set(`${eventId}/group-data/${info.id}/description`, state.groupDescription);
-              db.set(`${eventId}/group-data/${info.id}/image`, state.groupImage);
-              db.set(`${eventId}/group-data/${info.id}/id`, state.groupId);
+              console.log("update group.");
+              console.log(info);
+              db.set(`${eventId}/group-data/${groupId}/name`, state.groupName);
+              db.set(`${eventId}/group-data/${groupId}/description`, state.groupDescription);
+              db.set(`${eventId}/group-data/${groupId}/image`, state.groupImage);
+              db.set(`${eventId}/group-data/${groupId}/id`, groupId);
 
             }
            
@@ -138,7 +139,7 @@ const groupEdit = (info) => {
   })
 }
 
-const groupCard = (groupInfo) => {
+const groupCard = (groupInfo, groupId) => {
   const members = []
 
   if (groupInfo.members) {
@@ -176,7 +177,7 @@ const groupCard = (groupInfo) => {
               click: e => {
                 const isConfirmed = confirm("The group with its members will be permanantly deleted! Are you sure?");
                 if (isConfirmed) {
-                  db.remove(`${eventId}/group-data/${groupInfo.id}`);
+                  db.remove(`${eventId}/group-data/${groupId}`);
                 }
               }
             }
@@ -192,7 +193,7 @@ const groupCard = (groupInfo) => {
                 setState("groupName", groupInfo.name)
                 setState("groupDescription", groupInfo.description)
                 setState("groupImage", groupInfo.image)
-                groupEdit(groupInfo).render("#groupEditContaner")
+                groupEdit(groupInfo, groupId).render("#groupEditContaner")
                 window.scrollTo(0, 0)
               },
             },
@@ -222,15 +223,31 @@ const groupCard = (groupInfo) => {
 }
 
 db.onDataUpdated(eventId, (data) => {
+
   console.log(data);
+
+  document.querySelector("#eventTitle").innerHTML = data.page_title;
 
   const signUpData = data["group-data"];
 
   clearElements("#app");
 
-  Object.values(signUpData).forEach((info) => {
-    groupCard(info).render("#app")
-  });
+  new JDom({
+    type: "a",
+    content: "Sign-up Page",
+    attr: {
+      href: `./index.html?id=${eventId}`,
+      target: "_blank",
+    }
+  }).render("#links");
+
+  for(key in signUpData) {
+    groupCard(signUpData[key], key).render("#app")
+  }
+
+  // Object.values(signUpData).forEach((info) => {
+  //   groupCard(info).render("#app")
+  // });
 });
 
 document.querySelector("#btnAddGroup").addEventListener("click", e => {

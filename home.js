@@ -2,36 +2,55 @@
 new JDom({
     type: "button",
     content: "Create a New Event",
+    attr: {
+      className: "btn"
+    },
     events: {
         click: e => {
             const newID = Date.now();
             INIT_DATA.id = newID;
             console.log(INIT_DATA);
             db.update(newID, INIT_DATA, () => {
-                window.open(`./event.html?id=${newID}`, "_blank");
+                window.open(`./event.html?id=${newID}`, "_self");
             });
         }
     }
-}).render("#app");
+}).render("nav");
 
 db.read("", (data) => {
-  console.log(data["2022"])
-  Object.values(data).forEach((event) => {
 
+  for (key in data) {
     new JDom({
       type: "div",
-      style: {
-        display: "block",
-      },
+      attr: {
+        style: {
+          display: "block",
+          margin: "20px 0px"
+        }
+      }
+      ,
       children: [
         {
           type: "a",
-          content: event.year + " " + event.page_title,
+          content: data[key].year + " " + data[key].page_title,
           attr: {
-            href: `./index.html?id=${event.id}`,
+            href: `./index.html?id=${key}`,
             target: "_blank",
             style: {
-              marginRight: "16px"
+              marginRight: "16px",
+              fontSize: "1.3em",
+              fontWeight: "bold"
+            },
+          },
+        },{
+          type: "a",
+          content: "Manage Groups",
+          attr: {
+            href: `./manage.html?id=${key}`,
+            target: "_blank",
+            style: {
+              marginRight: "16px",
+              fontSize: "0.9em"
             },
           },
         },
@@ -39,13 +58,18 @@ db.read("", (data) => {
           type: "a",
           content: "Edit Event",
           attr: {
-            href: `./event.html?id=${event.id}`,
-            target: "_blank"
+            href: `./event.html?id=${key}`,
+            target: "_blank",
+            style: {
+              marginRight: "16px",
+              fontSize: "0.9em"
+            },
           },
         },
       ],
     }).render("#app")
-  })
+  }
+  
 });
 
 var INIT_DATA = {
@@ -59,9 +83,9 @@ var INIT_DATA = {
             "description": "Start to add your description",
             "id": 1,
             "image": "https://res.cloudinary.com/dop0mlakv/image/upload/v1682955577/public_upload/dtsq77rzlf2oso3bcakl.jpg",
-            "memberCount": 1,
+            "memberCount": 0,
             "members": {},
-            "name": "Give a name for the group"
+            "name": "The Name of Your First Group"
         }
     ],
     "id": 2022,

@@ -14,6 +14,7 @@ db.read(projectID, data => {
         document: data.doc
     };
     console.log(data);
+    document.querySelector("#eventTitle").innerHTML = data.page_title;
     eventEdit(data).render("#eventEditContaner");
 });
 
@@ -55,7 +56,13 @@ const eventEdit = (eventInfo) => {
                 events: {
                     click: (e) => {
                         e.preventDefault();
-                        clearElements("#eventEditContaner");
+                        const isConfirmed = confirm("Are you sure you want to cancel? All the information will not be saved.");
+                        if(isConfirmed) {
+                            db.remove(projectID, () => {
+                                console.log("Cancelled.");
+                                window.open(`./home.html`, "_self");
+                            });
+                        }
                     }
                 }
             },

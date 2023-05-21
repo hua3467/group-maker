@@ -10,10 +10,10 @@ const imagePlaceHolder = "https://sodaa360.com/wp-content/uploads/image_hosting/
 
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
-const projectID = urlParams.get("id");
+const eventId = urlParams.get("id");
 
 
-db.onDataUpdated(projectID, data => {
+db.onDataUpdated(eventId, data => {
 
     clearElements("#videContainer")
     clearElements("#app");
@@ -53,12 +53,12 @@ db.onDataUpdated(projectID, data => {
 
 function submit(groupName) {
     if (state.name.length > 1 && state.email.length > 1 && state.school.length > 1) {
-        db.set(`${projectID}/group-data/${state.groupID}/members/${state.uid}`, state, () => {
+        db.set(`${eventId}/group-data/${state.groupID}/members/${state.uid}`, state, () => {
             // const isConfirmed = confirm(`Are you sure you want to join ${groupName}? You cannot change your group after submission.`);
             clearElements("#form");
             document.querySelector(".form-container").classList.add("hide");
             
-            window.open(`./success.html?uid=${state.uid}&gid=${state.groupID}`, "_blank");
+            window.open(`./success.html?uid=${state.uid}&gid=${state.groupID}&eid=${eventId}`, "_blank");
 
         });
     } else {
