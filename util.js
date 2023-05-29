@@ -137,3 +137,11 @@ function getUrlParams(arr) {
   }
 
 
+  function emptyContent(msg) {
+    return new JDom({
+        type: "div",
+        attr: {
+            innerHTML: `<br><p>${msg}</p><br><br>`
+        }
+    })
+}

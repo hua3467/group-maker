@@ -1,26 +1,56 @@
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
-const projectID = urlParams.get("id");
+let projectID = urlParams.get("id");
 
 let state = {};
 
-db.read(projectID, data => {
+if (projectID === null) {
+    projectID = Date.now();
     state = {
-        eventName: data.page_title,
-        eventDescription: data.description,
-        eventImage: data.image,
-        eventVideo: data.video_url,
-        capacity: data.capacity,
-        document: data.doc
+        eventName: "",
+        eventDescription: '',
+        eventImage: '',
+        eventVideo: '',
+        capacity: '',
+        document:'',
+        year: new Date().getFullYear(),
     };
-    console.log(data);
-    document.querySelector("#eventTitle").innerHTML = data.page_title;
-    eventEdit(data).render("#eventEditContaner");
-});
+    document.querySelector("#eventTitle").innerHTML = "Create a Event";
+    eventEdit(state).render("#eventEditContaner");
+} else {
+    db.read(projectID, data => {
+        state = {
+            eventName: data.page_title,
+            eventDescription: data.description,
+            eventImage: data.image,
+            eventVideo: data.video_url,
+            capacity: data.capacity,
+            document: data.doc,
+            year: data.year
+        };
+        console.log(data);
+        document.querySelector("#eventTitle").innerHTML = data.page_title;
+        eventEdit(data).render("#eventEditContaner");
+
+        new JDom({
+            type: "button",
+            content: "Delete this Event",
+            events: {
+                click: () => {
+                    deleteEvent(projectID);
+                }
+            }
+        }).render("nav")
+
+    });
+
+}
 
 
 
-const eventEdit = (eventInfo) => {
+
+
+function eventEdit(eventInfo) {
     clearElements("#eventEditContaner");
 
     return new JDom({
@@ -44,7 +74,7 @@ const eventEdit = (eventInfo) => {
             input("Attached Document: ", "text", "document", setState, eventInfo.doc),
             input("Event Image: ", "text", "eventImage", setState, eventInfo.image),
             imageUpload(eventInfo.image),
-            input("Event Video: ", "text", "eventVideo", setState, eventInfo.video_url),
+            input("Event Video (YouTube Video Only): ", "text", "eventVideo", setState, eventInfo.video_url),
 
             
             {
@@ -82,7 +112,9 @@ const eventEdit = (eventInfo) => {
                         db.set(`${projectID}/video_url`, state.eventVideo);
                         db.set(`${projectID}/capacity`, state.capacity);
                         db.set(`${projectID}/doc`, state.document);
+                        db.set(`${projectID}/year`, state.year);
                         console.log(state);
+                        alert("Your changes are saved.");
                     }
                 }
             }
@@ -90,7 +122,14 @@ const eventEdit = (eventInfo) => {
     })
 }
 
-
+function deleteEvent(id){
+    const isConfirmed = confirm("Are you sure you want to delete this event? All the data will be permanently removed.");
+    if (isConfirmed) {
+        db.remove(id, () => {
+            alert("The event has been removed. You can close this window.");
+        });
+    }
+}
 
 
 

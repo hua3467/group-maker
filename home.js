@@ -1,4 +1,3 @@
-
 new JDom({
     type: "button",
     content: "Create a New Event",
@@ -7,12 +6,9 @@ new JDom({
     },
     events: {
         click: e => {
-            const newID = Date.now();
-            INIT_DATA.id = newID;
-            console.log(INIT_DATA);
-            db.update(newID, INIT_DATA, () => {
-                window.open(`./event.html?id=${newID}`, "_self");
-            });
+
+          window.open(`./event.html`, "_self");
+
         }
     }
 }).render("nav");
@@ -32,7 +28,7 @@ db.read("", (data) => {
       children: [
         {
           type: "a",
-          content: data[key].year + " " + data[key].page_title,
+          content: data[key].page_title,
           attr: {
             href: `./index.html?id=${key}`,
             target: "_blank",
@@ -42,6 +38,9 @@ db.read("", (data) => {
               fontWeight: "bold"
             },
           },
+        }, {
+          type: "p",
+          content: `${data[key].year ? data[key].year : ''}`
         },{
           type: "a",
           content: "Manage Groups",

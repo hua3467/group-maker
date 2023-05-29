@@ -74,3 +74,4 @@ var myWidget = cloudinary.createUploadWidget({
         document.querySelector("#upload_widget").content = "Change Image";
     }
 });
+

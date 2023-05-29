@@ -15,38 +15,62 @@ const eventId = urlParams.get("id");
 
 db.onDataUpdated(eventId, data => {
 
+    console.log(data);
     clearElements("#videContainer")
     clearElements("#app");
 
+    if (data === null) {
+
+    } else {
+
+    }
+
     document.querySelector("#description").innerHTML = data.description;
     document.querySelector("#eventTitle").innerHTML = data.page_title;
-    document.querySelector("#docURL").href = data.doc;
 
-    new JDom({
-        type: "video",
-        attr: {
-            src: data.video_url,
-            controls: true,
-            id: "introVideo"
-        }
-    }).render("#videContainer");
+    const docLink = document.querySelector("#docURL");
+
+    if (data.doc) {
+        docLink.href = data.doc;
+    } else {
+        docLink.classList.add("hide");
+    }
+
+    // new JDom({
+    //     type: "video",
+    //     attr: {
+    //         src: data.video_url,
+    //         controls: true,
+    //         id: "introVideo"
+    //     }
+    // }).render("#videContainer");
+
+    embedYouTubeVideo(data.video_url);
+    const groupData = data["group-data"];
+
+    console.log(groupData);
+
+    if (typeof groupData !== "undefined") {
+        
+        const capacity = data.capacity;
+
+        Object.values(groupData).forEach(info => {
+            let isFull = false;
+
+            if (info.members) {
+                isFull = Object.keys(info.members).length >= capacity ? true : false;
+            }
+
+            card(info, capacity, isFull).render("#app");
+        });
+
+    } else {
+
+        emptyContent("No groups have been created yet.").render("#app");
+
+    }
 
     
-
-    const groupData = data["group-data"];
-    const capacity = data.capacity;
-
-    console.log(data);
-
-    Object.values(groupData).forEach(info => {
-        let isFull = false;
-
-        if (info.members) {
-            isFull = Object.keys(info.members).length >= capacity ? true : false;
-        }
-
-        card(info, capacity, isFull).render("#app");
-    });
 });
 
 // db.set("group-data", groupDataInit);
@@ -210,6 +234,21 @@ function signUpForm(data, callback) {
         ]
     });
 }
+
+
+function embedYouTubeVideo(url) {
+    const baseUrl = "https://www.youtube.com/embed/";
+    const videoId = YouTubeGetID(url);
+    
+    const embedHTML = `<iframe width="1280" height="720" src=${baseUrl + videoId} title="Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+    <p>Watch the video on a new tab: <a href=${url} target="_blank">${url}</a></p>`
+    document.querySelector("#videContainer").innerHTML = embedHTML;
+}
+
+function YouTubeGetID(url){
+    url = url.split(/(vi\/|v=|\/v\/|youtu\.be\/|\/embed\/)/);
+    return (url[2] !== undefined) ? url[2].split(/[^0-9a-z_\-]/i)[0] : url[0];
+ }
 
 function setState(key, value) {
     state[key] = value;
